@@ -4,9 +4,23 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { Cloud, Droplets, Users, UserCheck, Thermometer, Wind, Calendar, Clock, LogOut, TreePine } from "lucide-react"
+import {
+  Cloud,
+  Droplets,
+  Users,
+  UserCheck,
+  Thermometer,
+  Wind,
+  Calendar,
+  Clock,
+  LogOut,
+  TreePine,
+  Database,
+  LogIn,
+} from "lucide-react"
 import { Line, LineChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 
 // Data cuaca per jam hari ini
 const weatherData = [
@@ -33,10 +47,10 @@ const visitorData = [
 ]
 
 interface DashboardProps {
-  onLogout: () => void
+  onLogin: () => void
 }
 
-export default function WaterfallDashboard({ onLogout }: DashboardProps) {
+export default function WaterfallDashboard({ onLogin }: DashboardProps) {
   const currentTime = new Date().toLocaleTimeString("id-ID", {
     hour: "2-digit",
     minute: "2-digit",
@@ -78,16 +92,100 @@ export default function WaterfallDashboard({ onLogout }: DashboardProps) {
               </div>
             </div>
           </div>
+          <div className="flex gap-2">
           <Button
-            onClick={onLogout}
+            onClick={onLogin}
             variant="outline"
             size="sm"
             className="border-green-200 text-green-700 hover:bg-green-50"
           >
-            <LogOut className="h-4 w-4 mr-2" />
-            Keluar
+            <LogIn className="h-4 w-4 mr-2" />
+            Login
           </Button>
+          </div>
         </div>
+
+        {/* Image Carousel */}
+        <Card className="shadow-lg border-green-100 overflow-hidden">
+          <CardContent className="p-0">
+            <Carousel className="w-full">
+              <CarouselContent>
+                <CarouselItem>
+                  <div className="relative h-64 md:h-80 lg:h-96">
+                    <img
+                      src="https://live.staticflickr.com/65535/50647347593_ecc150826b_o.jpg"
+                      alt="Air Terjun Sekumpul - Pemandangan Utama"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <h3 className="text-xl font-bold mb-1">Air Terjun Sekumpul</h3>
+                      <p className="text-sm opacity-90">Pemandangan utama air terjun yang menakjubkan</p>
+                    </div>
+                  </div>
+                </CarouselItem>
+                <CarouselItem>
+                  <div className="relative h-64 md:h-80 lg:h-96">
+                    <img
+                      src="https://live.staticflickr.com/65535/50647347593_ecc150826b_o.jpg"
+                      alt="Area Pengunjung"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <h3 className="text-xl font-bold mb-1">Area Pengunjung</h3>
+                      <p className="text-sm opacity-90">Fasilitas dan area rekreasi untuk wisatawan</p>
+                    </div>
+                  </div>
+                </CarouselItem>
+                <CarouselItem>
+                  <div className="relative h-64 md:h-80 lg:h-96">
+                    <img
+                      src="https://live.staticflickr.com/65535/50647347593_ecc150826b_o.jpg"
+                      alt="Jalur Trekking"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <h3 className="text-xl font-bold mb-1">Jalur Trekking</h3>
+                      <p className="text-sm opacity-90">Perjalanan menuju air terjun melalui alam</p>
+                    </div>
+                  </div>
+                </CarouselItem>
+                <CarouselItem>
+                  <div className="relative h-64 md:h-80 lg:h-96">
+                    <img
+                      src="https://live.staticflickr.com/65535/50647347593_ecc150826b_o.jpg"
+                      alt="Kolam Alami"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <h3 className="text-xl font-bold mb-1">Kolam Alami</h3>
+                      <p className="text-sm opacity-90">Kolam alami untuk berenang dan bersantai</p>
+                    </div>
+                  </div>
+                </CarouselItem>
+                <CarouselItem>
+                  <div className="relative h-64 md:h-80 lg:h-96">
+                    <img
+                      src="https://live.staticflickr.com/65535/50647347593_ecc150826b_o.jpg"
+                      alt="Sunrise di Air Terjun"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <h3 className="text-xl font-bold mb-1">Sunrise di Air Terjun</h3>
+                      <p className="text-sm opacity-90">Momen sunrise yang memukau di pagi hari</p>
+                    </div>
+                  </div>
+                </CarouselItem>
+              </CarouselContent>
+              <CarouselPrevious className="left-4 bg-white/80 hover:bg-white border-green-200 text-green-700" />
+              <CarouselNext className="right-4 bg-white/80 hover:bg-white border-green-200 text-green-700" />
+            </Carousel>
+          </CardContent>
+        </Card>
 
         {/* Kartu Informasi Utama */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

@@ -3,11 +3,18 @@
 import { useState } from "react"
 import LoginPage from "@/components/modular/loginPage"
 import WaterfallDashboard from "@/components/modular/waterfallDashboard"
+import { useRouter } from "next/navigation";
 
 export default function Page() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
 
-  const handleLogin = () => {
+  const handleLogin = ({ email, password }: { email: string; password: string }) => {
+
+    if(email == 'admin@sekumpul.com'){
+        router.push('/admin')
+        return;
+    }
     setIsLoggedIn(true)
   }
 
@@ -15,9 +22,13 @@ export default function Page() {
     setIsLoggedIn(false)
   }
 
-  if (!isLoggedIn) {
-    return <LoginPage onLogin={handleLogin} />
+  const handleLoginPage = () => {
+    setIsLoggedIn(true)
   }
 
-  return <WaterfallDashboard onLogout={handleLogout} />
+  if (!isLoggedIn) {
+    return <WaterfallDashboard onLogin={handleLoginPage} />
+  }
+
+  return <LoginPage onLogin={handleLogin} />
 }

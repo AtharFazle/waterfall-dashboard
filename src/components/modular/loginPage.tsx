@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator"
 import { Eye, EyeOff, MapPin, Droplets, TreePine, Lock, User } from 'lucide-react'
 
 interface LoginProps {
-  onLogin: () => void
+  onLogin: ({ email, password }: { email: string; password: string }) => void
 }
 
 export default function LoginPage({ onLogin }: LoginProps) {
@@ -26,7 +26,7 @@ export default function LoginPage({ onLogin }: LoginProps) {
     await new Promise(resolve => setTimeout(resolve, 1500))
     
     if (email && password) {
-      onLogin()
+      onLogin({ email, password })
     }
     setIsLoading(false)
   }
