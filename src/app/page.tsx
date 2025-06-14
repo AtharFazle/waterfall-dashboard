@@ -11,16 +11,17 @@ export default function Page() {
 
   const handleLogin = ({ email, password }: { email: string; password: string }) => {
 
-    if(email == 'admin@sekumpul.com'){
+    if(email == 'admin@sekumpul.com') {
         router.push('/admin')
+        console.log(password);
         return;
     }
     setIsLoggedIn(true)
   }
 
-  const handleLogout = () => {
-    setIsLoggedIn(false)
-  }
+  // const handleLogout = () => {
+  //   setIsLoggedIn(false)
+  // }
 
   const handleLoginPage = () => {
     setIsLoggedIn(true)

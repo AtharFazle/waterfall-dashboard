@@ -13,9 +13,9 @@ import {
   Wind,
   Calendar,
   Clock,
-  LogOut,
+  // LogOut,
   TreePine,
-  Database,
+  // Database,
   LogIn,
 } from "lucide-react"
 import { Line, LineChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts"

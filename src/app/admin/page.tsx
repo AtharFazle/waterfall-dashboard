@@ -1,13 +1,26 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   Dialog,
   DialogContent,
@@ -16,40 +29,58 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { Plus, Edit, Trash2, Save, X, Cloud, Users, Settings, Download, Upload, ArrowLeft } from "lucide-react"
-import { useRouter } from "next/navigation"
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Plus,
+  Edit,
+  Trash2,
+  Save,
+  X,
+  Cloud,
+  Users,
+  //  Settings,
+  Download,
+  Upload,
+  ArrowLeft,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Types
 interface WeatherData {
-  id: string
-  date: string
-  time: string
-  temperature: number
-  humidity: number
-  condition: string
-  windSpeed: number
-  notes?: string
+  id: string;
+  date: string;
+  time: string;
+  temperature: number;
+  humidity: number;
+  condition: string;
+  windSpeed: number;
+  notes?: string;
 }
 
 interface VisitorData {
-  id: string
-  date: string
-  time: string
-  visitorsIn: number
-  visitorsOut: number
-  currentVisitors: number
-  notes?: string
+  id: string;
+  date: string;
+  time: string;
+  visitorsIn: number;
+  visitorsOut: number;
+  currentVisitors: number;
+  notes?: string;
 }
 
 interface SystemSettings {
-  id: string
-  setting: string
-  value: string
-  description: string
-  category: string
+  id: string;
+  setting: string;
+  value: string;
+  description: string;
+  category: string;
 }
 
 // interface DataTablesProps {
@@ -57,7 +88,7 @@ interface SystemSettings {
 // }
 
 export default function DataTables() {
-  const router = useRouter()
+  const router = useRouter();
   // Sample data
   const [weatherData, setWeatherData] = useState<WeatherData[]>([
     {
@@ -80,7 +111,7 @@ export default function DataTables() {
       windSpeed: 8,
       notes: "Cuaca ideal untuk wisata",
     },
-  ])
+  ]);
 
   const [visitorData, setVisitorData] = useState<VisitorData[]>([
     {
@@ -101,7 +132,7 @@ export default function DataTables() {
       currentVisitors: 22,
       notes: "Peak hour",
     },
-  ])
+  ]);
 
   const [systemSettings, setSystemSettings] = useState<SystemSettings[]>([
     {
@@ -118,15 +149,21 @@ export default function DataTables() {
       description: "Aktifkan alert cuaca buruk",
       category: "Cuaca",
     },
-  ])
+  ]);
 
   // Form states
-  const [isWeatherDialogOpen, setIsWeatherDialogOpen] = useState(false)
-  const [isVisitorDialogOpen, setIsVisitorDialogOpen] = useState(false)
-  const [isSettingsDialogOpen, setIsSettingsDialogOpen] = useState(false)
-  const [editingWeather, setEditingWeather] = useState<WeatherData | null>(null)
-  const [editingVisitor, setEditingVisitor] = useState<VisitorData | null>(null)
-  const [editingSettings, setEditingSettings] = useState<SystemSettings | null>(null)
+  const [isWeatherDialogOpen, setIsWeatherDialogOpen] = useState(false);
+  const [isVisitorDialogOpen, setIsVisitorDialogOpen] = useState(false);
+  const [isSettingsDialogOpen, setIsSettingsDialogOpen] = useState(false);
+  const [editingWeather, setEditingWeather] = useState<WeatherData | null>(
+    null
+  );
+  const [editingVisitor, setEditingVisitor] = useState<VisitorData | null>(
+    null
+  );
+  const [editingSettings, setEditingSettings] = useState<SystemSettings | null>(
+    null
+  );
 
   // Weather form
   const [weatherForm, setWeatherForm] = useState({
@@ -137,7 +174,7 @@ export default function DataTables() {
     condition: "",
     windSpeed: "",
     notes: "",
-  })
+  });
 
   // Visitor form
   const [visitorForm, setVisitorForm] = useState({
@@ -146,7 +183,7 @@ export default function DataTables() {
     visitorsIn: "",
     visitorsOut: "",
     notes: "",
-  })
+  });
 
   // Settings form
   const [settingsForm, setSettingsForm] = useState({
@@ -154,7 +191,7 @@ export default function DataTables() {
     value: "",
     description: "",
     category: "",
-  })
+  });
 
   // Weather functions
   const handleAddWeather = () => {
@@ -167,8 +204,8 @@ export default function DataTables() {
       condition: weatherForm.condition,
       windSpeed: Number(weatherForm.windSpeed),
       notes: weatherForm.notes,
-    }
-    setWeatherData([...weatherData, newWeather])
+    };
+    setWeatherData([...weatherData, newWeather]);
     setWeatherForm({
       date: new Date().toISOString().split("T")[0],
       time: new Date().toTimeString().slice(0, 5),
@@ -177,12 +214,12 @@ export default function DataTables() {
       condition: "",
       windSpeed: "",
       notes: "",
-    })
-    setIsWeatherDialogOpen(false)
-  }
+    });
+    setIsWeatherDialogOpen(false);
+  };
 
   const handleEditWeather = (weather: WeatherData) => {
-    setEditingWeather(weather)
+    setEditingWeather(weather);
     setWeatherForm({
       date: weather.date,
       time: weather.time,
@@ -191,9 +228,9 @@ export default function DataTables() {
       condition: weather.condition,
       windSpeed: weather.windSpeed.toString(),
       notes: weather.notes || "",
-    })
-    setIsWeatherDialogOpen(true)
-  }
+    });
+    setIsWeatherDialogOpen(true);
+  };
 
   const handleUpdateWeather = () => {
     if (editingWeather) {
@@ -209,21 +246,22 @@ export default function DataTables() {
               windSpeed: Number(weatherForm.windSpeed),
               notes: weatherForm.notes,
             }
-          : item,
-      )
-      setWeatherData(updatedWeather)
-      setEditingWeather(null)
-      setIsWeatherDialogOpen(false)
+          : item
+      );
+      setWeatherData(updatedWeather);
+      setEditingWeather(null);
+      setIsWeatherDialogOpen(false);
     }
-  }
+  };
 
   const handleDeleteWeather = (id: string) => {
-    setWeatherData(weatherData.filter((item) => item.id !== id))
-  }
+    setWeatherData(weatherData.filter((item) => item.id !== id));
+  };
 
   // Visitor functions
   const handleAddVisitor = () => {
-    const currentVisitors = Number(visitorForm.visitorsIn) - Number(visitorForm.visitorsOut)
+    const currentVisitors =
+      Number(visitorForm.visitorsIn) - Number(visitorForm.visitorsOut);
     const newVisitor: VisitorData = {
       id: Date.now().toString(),
       date: visitorForm.date,
@@ -232,33 +270,34 @@ export default function DataTables() {
       visitorsOut: Number(visitorForm.visitorsOut),
       currentVisitors: Math.max(0, currentVisitors),
       notes: visitorForm.notes,
-    }
-    setVisitorData([...visitorData, newVisitor])
+    };
+    setVisitorData([...visitorData, newVisitor]);
     setVisitorForm({
       date: new Date().toISOString().split("T")[0],
       time: new Date().toTimeString().slice(0, 5),
       visitorsIn: "",
       visitorsOut: "",
       notes: "",
-    })
-    setIsVisitorDialogOpen(false)
-  }
+    });
+    setIsVisitorDialogOpen(false);
+  };
 
   const handleEditVisitor = (visitor: VisitorData) => {
-    setEditingVisitor(visitor)
+    setEditingVisitor(visitor);
     setVisitorForm({
       date: visitor.date,
       time: visitor.time,
       visitorsIn: visitor.visitorsIn.toString(),
       visitorsOut: visitor.visitorsOut.toString(),
       notes: visitor.notes || "",
-    })
-    setIsVisitorDialogOpen(true)
-  }
+    });
+    setIsVisitorDialogOpen(true);
+  };
 
   const handleUpdateVisitor = () => {
     if (editingVisitor) {
-      const currentVisitors = Number(visitorForm.visitorsIn) - Number(visitorForm.visitorsOut)
+      const currentVisitors =
+        Number(visitorForm.visitorsIn) - Number(visitorForm.visitorsOut);
       const updatedVisitor = visitorData.map((item) =>
         item.id === editingVisitor.id
           ? {
@@ -270,17 +309,17 @@ export default function DataTables() {
               currentVisitors: Math.max(0, currentVisitors),
               notes: visitorForm.notes,
             }
-          : item,
-      )
-      setVisitorData(updatedVisitor)
-      setEditingVisitor(null)
-      setIsVisitorDialogOpen(false)
+          : item
+      );
+      setVisitorData(updatedVisitor);
+      setEditingVisitor(null);
+      setIsVisitorDialogOpen(false);
     }
-  }
+  };
 
   const handleDeleteVisitor = (id: string) => {
-    setVisitorData(visitorData.filter((item) => item.id !== id))
-  }
+    setVisitorData(visitorData.filter((item) => item.id !== id));
+  };
 
   // Settings functions
   const handleAddSettings = () => {
@@ -290,27 +329,27 @@ export default function DataTables() {
       value: settingsForm.value,
       description: settingsForm.description,
       category: settingsForm.category,
-    }
-    setSystemSettings([...systemSettings, newSetting])
+    };
+    setSystemSettings([...systemSettings, newSetting]);
     setSettingsForm({
       setting: "",
       value: "",
       description: "",
       category: "",
-    })
-    setIsSettingsDialogOpen(false)
-  }
+    });
+    setIsSettingsDialogOpen(false);
+  };
 
   const handleEditSettings = (setting: SystemSettings) => {
-    setEditingSettings(setting)
+    setEditingSettings(setting);
     setSettingsForm({
       setting: setting.setting,
       value: setting.value,
       description: setting.description,
       category: setting.category,
-    })
-    setIsSettingsDialogOpen(true)
-  }
+    });
+    setIsSettingsDialogOpen(true);
+  };
 
   const handleUpdateSettings = () => {
     if (editingSettings) {
@@ -323,21 +362,21 @@ export default function DataTables() {
               description: settingsForm.description,
               category: settingsForm.category,
             }
-          : item,
-      )
-      setSystemSettings(updatedSettings)
-      setEditingSettings(null)
-      setIsSettingsDialogOpen(false)
+          : item
+      );
+      setSystemSettings(updatedSettings);
+      setEditingSettings(null);
+      setIsSettingsDialogOpen(false);
     }
-  }
+  };
 
   const handleDeleteSettings = (id: string) => {
-    setSystemSettings(systemSettings.filter((item) => item.id !== id))
-  }
+    setSystemSettings(systemSettings.filter((item) => item.id !== id));
+  };
 
-  const onBack =()  => {
-    router.push('/');
-  }
+  const onBack = () => {
+    router.push("/");
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 p-4">
@@ -355,16 +394,28 @@ export default function DataTables() {
               Kembali ke Dashboard
             </Button>
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">Manajemen Data</h1>
-              <p className="text-gray-600 text-sm">Kelola data cuaca, pengunjung, dan pengaturan sistem</p>
+              <h1 className="text-2xl font-bold text-gray-800">
+                Manajemen Data
+              </h1>
+              <p className="text-gray-600 text-sm">
+                Kelola data cuaca, pengunjung, dan pengaturan sistem
+              </p>
             </div>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="border-green-200 text-green-700 hover:bg-green-50">
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-green-200 text-green-700 hover:bg-green-50"
+            >
               <Download className="h-4 w-4 mr-2" />
               Export
             </Button>
-            <Button variant="outline" size="sm" className="border-green-200 text-green-700 hover:bg-green-50">
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-green-200 text-green-700 hover:bg-green-50"
+            >
               <Upload className="h-4 w-4 mr-2" />
               Import
             </Button>
@@ -374,11 +425,17 @@ export default function DataTables() {
         {/* Tabs */}
         <Tabs defaultValue="weather" className="space-y-4">
           <TabsList className="grid w-full grid-cols-3 bg-green-100">
-            <TabsTrigger value="weather" className="data-[state=active]:bg-green-500 data-[state=active]:text-white">
+            <TabsTrigger
+              value="weather"
+              className="data-[state=active]:bg-green-500 data-[state=active]:text-white"
+            >
               <Cloud className="h-4 w-4 mr-2" />
               Data Cuaca
             </TabsTrigger>
-            <TabsTrigger value="visitors" className="data-[state=active]:bg-green-500 data-[state=active]:text-white">
+            <TabsTrigger
+              value="visitors"
+              className="data-[state=active]:bg-green-500 data-[state=active]:text-white"
+            >
               <Users className="h-4 w-4 mr-2" />
               Data Pengunjung
             </TabsTrigger>
@@ -395,9 +452,14 @@ export default function DataTables() {
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="text-green-800">Data Cuaca</CardTitle>
-                    <CardDescription>Kelola data cuaca dan kondisi lingkungan</CardDescription>
+                    <CardDescription>
+                      Kelola data cuaca dan kondisi lingkungan
+                    </CardDescription>
                   </div>
-                  <Dialog open={isWeatherDialogOpen} onOpenChange={setIsWeatherDialogOpen}>
+                  <Dialog
+                    open={isWeatherDialogOpen}
+                    onOpenChange={setIsWeatherDialogOpen}
+                  >
                     <DialogTrigger asChild>
                       <Button className="bg-green-500 hover:bg-green-600">
                         <Plus className="h-4 w-4 mr-2" />
@@ -406,9 +468,15 @@ export default function DataTables() {
                     </DialogTrigger>
                     <DialogContent className="max-w-md">
                       <DialogHeader>
-                        <DialogTitle>{editingWeather ? "Edit Data Cuaca" : "Tambah Data Cuaca"}</DialogTitle>
+                        <DialogTitle>
+                          {editingWeather
+                            ? "Edit Data Cuaca"
+                            : "Tambah Data Cuaca"}
+                        </DialogTitle>
                         <DialogDescription>
-                          {editingWeather ? "Ubah informasi data cuaca" : "Masukkan data cuaca baru"}
+                          {editingWeather
+                            ? "Ubah informasi data cuaca"
+                            : "Masukkan data cuaca baru"}
                         </DialogDescription>
                       </DialogHeader>
                       <div className="grid gap-4 py-4">
@@ -419,7 +487,12 @@ export default function DataTables() {
                               id="date"
                               type="date"
                               value={weatherForm.date}
-                              onChange={(e) => setWeatherForm({ ...weatherForm, date: e.target.value })}
+                              onChange={(e) =>
+                                setWeatherForm({
+                                  ...weatherForm,
+                                  date: e.target.value,
+                                })
+                              }
                             />
                           </div>
                           <div className="space-y-2">
@@ -428,7 +501,12 @@ export default function DataTables() {
                               id="time"
                               type="time"
                               value={weatherForm.time}
-                              onChange={(e) => setWeatherForm({ ...weatherForm, time: e.target.value })}
+                              onChange={(e) =>
+                                setWeatherForm({
+                                  ...weatherForm,
+                                  time: e.target.value,
+                                })
+                              }
                             />
                           </div>
                         </div>
@@ -439,7 +517,12 @@ export default function DataTables() {
                               id="temperature"
                               type="number"
                               value={weatherForm.temperature}
-                              onChange={(e) => setWeatherForm({ ...weatherForm, temperature: e.target.value })}
+                              onChange={(e) =>
+                                setWeatherForm({
+                                  ...weatherForm,
+                                  temperature: e.target.value,
+                                })
+                              }
                             />
                           </div>
                           <div className="space-y-2">
@@ -448,7 +531,12 @@ export default function DataTables() {
                               id="humidity"
                               type="number"
                               value={weatherForm.humidity}
-                              onChange={(e) => setWeatherForm({ ...weatherForm, humidity: e.target.value })}
+                              onChange={(e) =>
+                                setWeatherForm({
+                                  ...weatherForm,
+                                  humidity: e.target.value,
+                                })
+                              }
                             />
                           </div>
                         </div>
@@ -456,7 +544,12 @@ export default function DataTables() {
                           <Label htmlFor="condition">Kondisi Cuaca</Label>
                           <Select
                             value={weatherForm.condition}
-                            onValueChange={(value) => setWeatherForm({ ...weatherForm, condition: value })}
+                            onValueChange={(value) =>
+                              setWeatherForm({
+                                ...weatherForm,
+                                condition: value,
+                              })
+                            }
                           >
                             <SelectTrigger>
                               <SelectValue placeholder="Pilih kondisi cuaca" />
@@ -465,18 +558,29 @@ export default function DataTables() {
                               <SelectItem value="Cerah">Cerah</SelectItem>
                               <SelectItem value="Berawan">Berawan</SelectItem>
                               <SelectItem value="Mendung">Mendung</SelectItem>
-                              <SelectItem value="Hujan Ringan">Hujan Ringan</SelectItem>
-                              <SelectItem value="Hujan Lebat">Hujan Lebat</SelectItem>
+                              <SelectItem value="Hujan Ringan">
+                                Hujan Ringan
+                              </SelectItem>
+                              <SelectItem value="Hujan Lebat">
+                                Hujan Lebat
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="windSpeed">Kecepatan Angin (km/h)</Label>
+                          <Label htmlFor="windSpeed">
+                            Kecepatan Angin (km/h)
+                          </Label>
                           <Input
                             id="windSpeed"
                             type="number"
                             value={weatherForm.windSpeed}
-                            onChange={(e) => setWeatherForm({ ...weatherForm, windSpeed: e.target.value })}
+                            onChange={(e) =>
+                              setWeatherForm({
+                                ...weatherForm,
+                                windSpeed: e.target.value,
+                              })
+                            }
                           />
                         </div>
                         <div className="space-y-2">
@@ -484,7 +588,12 @@ export default function DataTables() {
                           <Textarea
                             id="notes"
                             value={weatherForm.notes}
-                            onChange={(e) => setWeatherForm({ ...weatherForm, notes: e.target.value })}
+                            onChange={(e) =>
+                              setWeatherForm({
+                                ...weatherForm,
+                                notes: e.target.value,
+                              })
+                            }
                             placeholder="Catatan tambahan..."
                           />
                         </div>
@@ -493,15 +602,19 @@ export default function DataTables() {
                         <Button
                           variant="outline"
                           onClick={() => {
-                            setIsWeatherDialogOpen(false)
-                            setEditingWeather(null)
+                            setIsWeatherDialogOpen(false);
+                            setEditingWeather(null);
                           }}
                         >
                           <X className="h-4 w-4 mr-2" />
                           Batal
                         </Button>
                         <Button
-                          onClick={editingWeather ? handleUpdateWeather : handleAddWeather}
+                          onClick={
+                            editingWeather
+                              ? handleUpdateWeather
+                              : handleAddWeather
+                          }
                           className="bg-green-500 hover:bg-green-600"
                         >
                           <Save className="h-4 w-4 mr-2" />
@@ -529,17 +642,24 @@ export default function DataTables() {
                   <TableBody>
                     {weatherData.map((item) => (
                       <TableRow key={item.id}>
-                        <TableCell>{new Date(item.date).toLocaleDateString("id-ID")}</TableCell>
+                        <TableCell>
+                          {new Date(item.date).toLocaleDateString("id-ID")}
+                        </TableCell>
                         <TableCell>{item.time}</TableCell>
                         <TableCell>{item.temperature}°C</TableCell>
                         <TableCell>{item.humidity}%</TableCell>
                         <TableCell>
-                          <Badge variant="secondary" className="bg-green-100 text-green-800">
+                          <Badge
+                            variant="secondary"
+                            className="bg-green-100 text-green-800"
+                          >
                             {item.condition}
                           </Badge>
                         </TableCell>
                         <TableCell>{item.windSpeed} km/h</TableCell>
-                        <TableCell className="max-w-32 truncate">{item.notes}</TableCell>
+                        <TableCell className="max-w-32 truncate">
+                          {item.notes}
+                        </TableCell>
                         <TableCell>
                           <div className="flex gap-2">
                             <Button
@@ -574,10 +694,17 @@ export default function DataTables() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className="text-green-800">Data Pengunjung</CardTitle>
-                    <CardDescription>Kelola data pengunjung masuk dan keluar</CardDescription>
+                    <CardTitle className="text-green-800">
+                      Data Pengunjung
+                    </CardTitle>
+                    <CardDescription>
+                      Kelola data pengunjung masuk dan keluar
+                    </CardDescription>
                   </div>
-                  <Dialog open={isVisitorDialogOpen} onOpenChange={setIsVisitorDialogOpen}>
+                  <Dialog
+                    open={isVisitorDialogOpen}
+                    onOpenChange={setIsVisitorDialogOpen}
+                  >
                     <DialogTrigger asChild>
                       <Button className="bg-green-500 hover:bg-green-600">
                         <Plus className="h-4 w-4 mr-2" />
@@ -586,9 +713,15 @@ export default function DataTables() {
                     </DialogTrigger>
                     <DialogContent className="max-w-md">
                       <DialogHeader>
-                        <DialogTitle>{editingVisitor ? "Edit Data Pengunjung" : "Tambah Data Pengunjung"}</DialogTitle>
+                        <DialogTitle>
+                          {editingVisitor
+                            ? "Edit Data Pengunjung"
+                            : "Tambah Data Pengunjung"}
+                        </DialogTitle>
                         <DialogDescription>
-                          {editingVisitor ? "Ubah informasi data pengunjung" : "Masukkan data pengunjung baru"}
+                          {editingVisitor
+                            ? "Ubah informasi data pengunjung"
+                            : "Masukkan data pengunjung baru"}
                         </DialogDescription>
                       </DialogHeader>
                       <div className="grid gap-4 py-4">
@@ -599,7 +732,12 @@ export default function DataTables() {
                               id="visitor-date"
                               type="date"
                               value={visitorForm.date}
-                              onChange={(e) => setVisitorForm({ ...visitorForm, date: e.target.value })}
+                              onChange={(e) =>
+                                setVisitorForm({
+                                  ...visitorForm,
+                                  date: e.target.value,
+                                })
+                              }
                             />
                           </div>
                           <div className="space-y-2">
@@ -608,27 +746,46 @@ export default function DataTables() {
                               id="visitor-time"
                               type="time"
                               value={visitorForm.time}
-                              onChange={(e) => setVisitorForm({ ...visitorForm, time: e.target.value })}
+                              onChange={(e) =>
+                                setVisitorForm({
+                                  ...visitorForm,
+                                  time: e.target.value,
+                                })
+                              }
                             />
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="space-y-2">
-                            <Label htmlFor="visitors-in">Pengunjung Masuk</Label>
+                            <Label htmlFor="visitors-in">
+                              Pengunjung Masuk
+                            </Label>
                             <Input
                               id="visitors-in"
                               type="number"
                               value={visitorForm.visitorsIn}
-                              onChange={(e) => setVisitorForm({ ...visitorForm, visitorsIn: e.target.value })}
+                              onChange={(e) =>
+                                setVisitorForm({
+                                  ...visitorForm,
+                                  visitorsIn: e.target.value,
+                                })
+                              }
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label htmlFor="visitors-out">Pengunjung Keluar</Label>
+                            <Label htmlFor="visitors-out">
+                              Pengunjung Keluar
+                            </Label>
                             <Input
                               id="visitors-out"
                               type="number"
                               value={visitorForm.visitorsOut}
-                              onChange={(e) => setVisitorForm({ ...visitorForm, visitorsOut: e.target.value })}
+                              onChange={(e) =>
+                                setVisitorForm({
+                                  ...visitorForm,
+                                  visitorsOut: e.target.value,
+                                })
+                              }
                             />
                           </div>
                         </div>
@@ -637,7 +794,12 @@ export default function DataTables() {
                           <Textarea
                             id="visitor-notes"
                             value={visitorForm.notes}
-                            onChange={(e) => setVisitorForm({ ...visitorForm, notes: e.target.value })}
+                            onChange={(e) =>
+                              setVisitorForm({
+                                ...visitorForm,
+                                notes: e.target.value,
+                              })
+                            }
                             placeholder="Catatan tambahan..."
                           />
                         </div>
@@ -646,15 +808,19 @@ export default function DataTables() {
                         <Button
                           variant="outline"
                           onClick={() => {
-                            setIsVisitorDialogOpen(false)
-                            setEditingVisitor(null)
+                            setIsVisitorDialogOpen(false);
+                            setEditingVisitor(null);
                           }}
                         >
                           <X className="h-4 w-4 mr-2" />
                           Batal
                         </Button>
                         <Button
-                          onClick={editingVisitor ? handleUpdateVisitor : handleAddVisitor}
+                          onClick={
+                            editingVisitor
+                              ? handleUpdateVisitor
+                              : handleAddVisitor
+                          }
                           className="bg-green-500 hover:bg-green-600"
                         >
                           <Save className="h-4 w-4 mr-2" />
@@ -681,24 +847,37 @@ export default function DataTables() {
                   <TableBody>
                     {visitorData.map((item) => (
                       <TableRow key={item.id}>
-                        <TableCell>{new Date(item.date).toLocaleDateString("id-ID")}</TableCell>
+                        <TableCell>
+                          {new Date(item.date).toLocaleDateString("id-ID")}
+                        </TableCell>
                         <TableCell>{item.time}</TableCell>
                         <TableCell>
-                          <Badge variant="secondary" className="bg-green-100 text-green-800">
+                          <Badge
+                            variant="secondary"
+                            className="bg-green-100 text-green-800"
+                          >
                             +{item.visitorsIn}
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          <Badge variant="secondary" className="bg-red-100 text-red-800">
+                          <Badge
+                            variant="secondary"
+                            className="bg-red-100 text-red-800"
+                          >
                             -{item.visitorsOut}
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                          <Badge
+                            variant="secondary"
+                            className="bg-blue-100 text-blue-800"
+                          >
                             {item.currentVisitors}
                           </Badge>
                         </TableCell>
-                        <TableCell className="max-w-32 truncate">{item.notes}</TableCell>
+                        <TableCell className="max-w-32 truncate">
+                          {item.notes}
+                        </TableCell>
                         <TableCell>
                           <div className="flex gap-2">
                             <Button
@@ -733,10 +912,17 @@ export default function DataTables() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className="text-green-800">Pengaturan Sistem</CardTitle>
-                    <CardDescription>Kelola pengaturan dan konfigurasi sistem</CardDescription>
+                    <CardTitle className="text-green-800">
+                      Pengaturan Sistem
+                    </CardTitle>
+                    <CardDescription>
+                      Kelola pengaturan dan konfigurasi sistem
+                    </CardDescription>
                   </div>
-                  <Dialog open={isSettingsDialogOpen} onOpenChange={setIsSettingsDialogOpen}>
+                  <Dialog
+                    open={isSettingsDialogOpen}
+                    onOpenChange={setIsSettingsDialogOpen}
+                  >
                     <DialogTrigger asChild>
                       <Button className="bg-green-500 hover:bg-green-600">
                         <Plus className="h-4 w-4 mr-2" />
@@ -745,9 +931,15 @@ export default function DataTables() {
                     </DialogTrigger>
                     <DialogContent className="max-w-md">
                       <DialogHeader>
-                        <DialogTitle>{editingSettings ? "Edit Pengaturan" : "Tambah Pengaturan"}</DialogTitle>
+                        <DialogTitle>
+                          {editingSettings
+                            ? "Edit Pengaturan"
+                            : "Tambah Pengaturan"}
+                        </DialogTitle>
                         <DialogDescription>
-                          {editingSettings ? "Ubah pengaturan sistem" : "Tambahkan pengaturan sistem baru"}
+                          {editingSettings
+                            ? "Ubah pengaturan sistem"
+                            : "Tambahkan pengaturan sistem baru"}
                         </DialogDescription>
                       </DialogHeader>
                       <div className="grid gap-4 py-4">
@@ -756,7 +948,12 @@ export default function DataTables() {
                           <Input
                             id="setting-name"
                             value={settingsForm.setting}
-                            onChange={(e) => setSettingsForm({ ...settingsForm, setting: e.target.value })}
+                            onChange={(e) =>
+                              setSettingsForm({
+                                ...settingsForm,
+                                setting: e.target.value,
+                              })
+                            }
                             placeholder="contoh: max_capacity"
                           />
                         </div>
@@ -765,7 +962,12 @@ export default function DataTables() {
                           <Input
                             id="setting-value"
                             value={settingsForm.value}
-                            onChange={(e) => setSettingsForm({ ...settingsForm, value: e.target.value })}
+                            onChange={(e) =>
+                              setSettingsForm({
+                                ...settingsForm,
+                                value: e.target.value,
+                              })
+                            }
                             placeholder="contoh: 100"
                           />
                         </div>
@@ -773,13 +975,20 @@ export default function DataTables() {
                           <Label htmlFor="setting-category">Kategori</Label>
                           <Select
                             value={settingsForm.category}
-                            onValueChange={(value) => setSettingsForm({ ...settingsForm, category: value })}
+                            onValueChange={(value) =>
+                              setSettingsForm({
+                                ...settingsForm,
+                                category: value,
+                              })
+                            }
                           >
                             <SelectTrigger>
                               <SelectValue placeholder="Pilih kategori" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="Pengunjung">Pengunjung</SelectItem>
+                              <SelectItem value="Pengunjung">
+                                Pengunjung
+                              </SelectItem>
                               <SelectItem value="Cuaca">Cuaca</SelectItem>
                               <SelectItem value="Sistem">Sistem</SelectItem>
                               <SelectItem value="Keamanan">Keamanan</SelectItem>
@@ -791,7 +1000,12 @@ export default function DataTables() {
                           <Textarea
                             id="setting-description"
                             value={settingsForm.description}
-                            onChange={(e) => setSettingsForm({ ...settingsForm, description: e.target.value })}
+                            onChange={(e) =>
+                              setSettingsForm({
+                                ...settingsForm,
+                                description: e.target.value,
+                              })
+                            }
                             placeholder="Deskripsi pengaturan..."
                           />
                         </div>
@@ -800,15 +1014,19 @@ export default function DataTables() {
                         <Button
                           variant="outline"
                           onClick={() => {
-                            setIsSettingsDialogOpen(false)
-                            setEditingSettings(null)
+                            setIsSettingsDialogOpen(false);
+                            setEditingSettings(null);
                           }}
                         >
                           <X className="h-4 w-4 mr-2" />
                           Batal
                         </Button>
                         <Button
-                          onClick={editingSettings ? handleUpdateSettings : handleAddSettings}
+                          onClick={
+                            editingSettings
+                              ? handleUpdateSettings
+                              : handleAddSettings
+                          }
                           className="bg-green-500 hover:bg-green-600"
                         >
                           <Save className="h-4 w-4 mr-2" />
@@ -833,18 +1051,28 @@ export default function DataTables() {
                   <TableBody>
                     {systemSettings.map((item) => (
                       <TableRow key={item.id}>
-                        <TableCell className="font-mono text-sm">{item.setting}</TableCell>
+                        <TableCell className="font-mono text-sm">
+                          {item.setting}
+                        </TableCell>
                         <TableCell>
-                          <Badge variant="secondary" className="bg-green-100 text-green-800">
+                          <Badge
+                            variant="secondary"
+                            className="bg-green-100 text-green-800"
+                          >
                             {item.value}
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          <Badge variant="outline" className="border-green-200 text-green-700">
+                          <Badge
+                            variant="outline"
+                            className="border-green-200 text-green-700"
+                          >
                             {item.category}
                           </Badge>
                         </TableCell>
-                        <TableCell className="max-w-48 truncate">{item.description}</TableCell>
+                        <TableCell className="max-w-48 truncate">
+                          {item.description}
+                        </TableCell>
                         <TableCell>
                           <div className="flex gap-2">
                             <Button
@@ -875,5 +1103,5 @@ export default function DataTables() {
         </Tabs>
       </div>
     </div>
-  )
+  );
 }
