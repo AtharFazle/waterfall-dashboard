@@ -46,7 +46,7 @@ export default function LoginPage({ onLogin }: LoginProps) {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full mb-4 shadow-lg">
             <MapPin className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">Wisata Air Terjun Sekumpul</h1>
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">Wisata Air Terjun Banyumaro</h1>
           <p className="text-gray-600 text-sm">Sistem Monitoring & Manajemen</p>
         </div>
 
@@ -72,7 +72,7 @@ export default function LoginPage({ onLogin }: LoginProps) {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="admin@sekumpul.com"
+                    placeholder="admin@banyumaro.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-10 border-gray-200 focus:border-green-500 focus:ring-green-500"
@@ -136,7 +136,7 @@ export default function LoginPage({ onLogin }: LoginProps) {
                 <TreePine className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
                 <div className="text-xs text-green-700">
                   <p className="font-medium mb-1">Akun Demo:</p>
-                  <p>Email: admin@sekumpul.com</p>
+                  <p>Email: admin@banyumaro.com</p>
                   <p>Password: admin123</p>
                 </div>
               </div>
@@ -150,7 +150,7 @@ export default function LoginPage({ onLogin }: LoginProps) {
             <Droplets className="h-3 w-3 text-green-500" />
             <span>Sistem Monitoring Wisata Alam</span>
           </div>
-          <p>&copy; 2024 Wisata Air Terjun Sekumpul. All rights reserved.</p>
+          <p>&copy; 2024 Wisata Air Terjun Banyumaro. All rights reserved.</p>
         </div>
       </div>
     </div>

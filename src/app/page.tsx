@@ -11,7 +11,7 @@ export default function Page() {
 
   const handleLogin = ({ email, password }: { email: string; password: string }) => {
 
-    if(email == 'admin@sekumpul.com') {
+    if(email == 'admin@banyumaro.com') {
         router.push('/admin')
         console.log(password);
         return;
