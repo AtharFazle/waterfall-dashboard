@@ -418,7 +418,7 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
               <div className="flex items-center gap-2 mt-2">
                 <Thermometer className="h-3 w-3" />
                 <span className="text-xs">
-                  Terasa {Math.round(data?.data.kelembapan || 0)}°C
+                  Terasa {Math.round(data?.data?.kelembapan || 0)}°C
                 </span>
               </div>
             </CardContent>
@@ -433,12 +433,12 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{data?.data.suhu}°C</div>
+              <div className="text-2xl font-bold">{data?.data?.suhu}°C</div>
               <p className="text-green-100 text-sm">{getCuacaLatest()}</p>
               <div className="flex items-center gap-2 mt-2">
                 <Wind className="h-3 w-3" />
                 <span className="text-xs">
-                  Angin {data?.data.kecepatan_angin} km/h
+                  Angin {data?.data?.kecepatan_angin} km/h
                 </span>
               </div>
             </CardContent>
@@ -580,7 +580,7 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={visitorData?.data}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                    <XAxis dataKey="time" stroke="#6b7280" />
+                    <XAxis dataKey="hour" stroke="#6b7280" />
                     <YAxis stroke="#6b7280" />
                     <ChartTooltip content={<ChartTooltipContent />} />
                     <Line
