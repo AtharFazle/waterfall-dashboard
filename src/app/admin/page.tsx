@@ -50,7 +50,7 @@ export default function VisitorManagement({ onBack }: VisitorManagementProps) {
   const [visitors, setVisitors] = useState<Visitor[]>([
     {
       ticker_number: 1010,
-      name: "dimas-jembot",
+      name: "dimas",
       amount: 10,
       check_in_time: "2025-01-15 08:30:00",
       check_out_time: null,
