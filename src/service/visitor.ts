@@ -11,6 +11,12 @@ export const getVisitorData = async () => {
   return response.data;
 };
 
+export const getVisitorDataDaily = async () => {
+  const response = await apiClient.get<Visitor[]>('/visitor-logs/daily');
+
+  return response.data;
+}
+
 export const getVisitorDataHourly = async () => {
   const response = await apiClient.get<VisitorHourly[]>('/visitor-logs/hourly');
 

@@ -25,15 +25,6 @@ interface RefreshResponse {
   refreshToken?: string;
 }
 
-// Create axios instance
-const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || API_URL,
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
 // Token management
 class TokenManager {
   private static getAccessToken(): string | null {
@@ -63,6 +54,16 @@ class TokenManager {
     return token ? `Bearer ${token}` : null;
   }
 }
+
+// Create axios instance
+const api = axios.create({
+  baseURL: process.env.REACT_APP_API_URL || API_URL,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization' : TokenManager.getAuthHeader(),
+  },
+});
 
 // Custom error class for API errors
 export class ApiErrorClass extends Error {
@@ -238,6 +239,10 @@ export const setupInterceptors = (queryClient?: QueryClient) => {
 
         // Handle specific status codes
         switch (status) {
+          case 401:
+            console.error('❌ Unauthorized:', message);
+            window.location.href = '/login';
+            break;
           case 403:
             // Forbidden - might want to show a specific message
             break;

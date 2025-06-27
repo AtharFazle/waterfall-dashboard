@@ -1,35 +1,117 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { Eye, EyeOff, MapPin, Droplets, TreePine, Lock, User } from 'lucide-react'
+import { useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import {
+  Eye,
+  EyeOff,
+  MapPin,
+  Droplets,
+  TreePine,
+  Lock,
+  User,
+  X,
+  AlertCircle,
+} from "lucide-react";
+import { useLogin } from "@/hooks/auth";
+// import { useRouter } from "next/router"
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-interface LoginProps {
-  onLogin: ({ email, password }: { email: string; password: string }) => void
-}
+export default function LoginPage() {
+  const { isPending, mutate,mutateAsync } = useLogin();
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-export default function LoginPage({ onLogin }: LoginProps) {
-  const [showPassword, setShowPassword] = useState(false)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    
-    // Simulasi login
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    
-    if (email && password) {
-      onLogin({ email, password })
-    }
-    setIsLoading(false)
-  }
+    e.preventDefault();
+
+    mutateAsync(
+      { email, password },
+      {
+        onSuccess: (result) => {
+          console.log("Login berhasil:", result);
+
+          // Clear form
+          setEmail("");
+          setPassword("");
+
+          // Simpan ke localStorage
+          localStorage.setItem("user", JSON.stringify(result.data.user));
+          localStorage.setItem("accessToken", result.data.token);
+
+          // Tampilkan toast sukses
+          toast.custom(
+            (t) => (
+              <div className="flex justify-between">
+                <div className="flex items-center">
+                  <AlertCircle />
+                  <div className="ml-2">Login Success</div>
+                </div>
+                <Button
+                  className="text-white"
+                  variant="link"
+                  onClick={() => toast.dismiss(t)}
+                >
+                  <X />
+                </Button>
+              </div>
+            ),
+            {
+              unstyled: true,
+              duration: 5000,
+              classNames: {
+                toast:
+                  "bg-green-500 rounded-lg py-2 px-4 shadow-lg text-white w-96",
+              },
+            }
+          );
+
+          router.push("/admin");
+        },
+        onError: (error) => {
+          toast.custom(
+            (t) => (
+              <div className="flex justify-between">
+                <div className="flex items-center">
+                  <AlertCircle />
+                  <div className="ml-2">Login Credentials Invalid</div>
+                </div>
+                <Button
+                  className="text-white"
+                  variant="link"
+                  onClick={() => toast.dismiss(t)}
+                >
+                  <X />
+                </Button>
+              </div>
+            ),
+            {
+              unstyled: true,
+              classNames: {
+                toast:
+                  "bg-red-500 rounded-lg py-2 px-4 shadow-lg text-white w-96",
+              },
+            }
+          );
+          console.error("Login gagal:", error);
+        },
+      }
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 flex items-center justify-center p-4">
@@ -46,7 +128,9 @@ export default function LoginPage({ onLogin }: LoginProps) {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full mb-4 shadow-lg">
             <MapPin className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">Wisata Air Terjun Banyumaro</h1>
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+            Wisata Air Terjun Banyumaro
+          </h1>
           <p className="text-gray-600 text-sm">Sistem Monitoring & Manajemen</p>
         </div>
 
@@ -60,11 +144,14 @@ export default function LoginPage({ onLogin }: LoginProps) {
               Masukkan kredensial Anda untuk mengakses sistem monitoring
             </CardDescription>
           </CardHeader>
-          
+
           <CardContent className="space-y-4">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                <Label
+                  htmlFor="email"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Email atau Username
                 </Label>
                 <div className="relative">
@@ -82,7 +169,10 @@ export default function LoginPage({ onLogin }: LoginProps) {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                <Label
+                  htmlFor="password"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Password
                 </Label>
                 <div className="relative">
@@ -101,7 +191,11 @@ export default function LoginPage({ onLogin }: LoginProps) {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -109,9 +203,9 @@ export default function LoginPage({ onLogin }: LoginProps) {
               <Button
                 type="submit"
                 className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-medium py-2.5 transition-all duration-200 shadow-lg hover:shadow-xl"
-                disabled={isLoading}
+                disabled={isPending}
               >
-                {isLoading ? (
+                {isPending ? (
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     Memverifikasi...
@@ -127,7 +221,9 @@ export default function LoginPage({ onLogin }: LoginProps) {
                 <Separator className="w-full" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-gray-500">Demo Account</span>
+                <span className="bg-white px-2 text-gray-500">
+                  Demo Account
+                </span>
               </div>
             </div>
 
@@ -154,5 +250,5 @@ export default function LoginPage({ onLogin }: LoginProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,5 +1,5 @@
 import { getDashboardData } from "@/service/sensor";
-import { getVisitorData, getVisitorDataHourly } from "@/service/visitor";
+import { getVisitorData, getVisitorDataDaily, getVisitorDataHourly } from "@/service/visitor";
 import { useQuery } from "@tanstack/react-query";
 
 const key = "visitor";
@@ -29,4 +29,17 @@ export const useGetVisitorDataHourly = () => {
   });
 
   return { data, isLoading, isError, error };
+}
+
+export const useGetVisitorDataDaily = () => {
+  const query = useQuery({
+    queryKey: [key,'/daily'],
+    queryFn: getVisitorDataDaily,
+    refetchInterval: 10000,
+    refetchIntervalInBackground: true,
+    staleTime: 0,
+    refetchOnWindowFocus: false,
+  });
+
+  return query;
 }
