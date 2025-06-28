@@ -26,6 +26,8 @@ import {
   Waves,
   Activity,
   CloudRain,
+  LogOut,
+  Database,
 } from "lucide-react";
 import {
   Line,
@@ -40,45 +42,18 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+
 import { useGetDashboardData } from "@/hooks/sensor";
 import { getStatusByKelembapan } from "@/lib/sensor";
 import { cn } from "@/lib/utils";
-import { useGetVisitorData, useGetVisitorDataHourly } from "@/hooks/visitor";
+import { useGetVisitorDataHourly } from "@/hooks/visitor";
 import { useMemo } from "react";
-import { getWeatherData } from "@/service/cuaca";
 import { useGetWeatherData } from "@/hooks/cuaca";
-
-// Data cuaca per jam hari ini
-// const weatherData = [
-//   { time: "06:00", temp: 22, humidity: 85 },
-//   { time: "08:00", temp: 24, humidity: 82 },
-//   { time: "10:00", temp: 27, humidity: 78 },
-//   { time: "12:00", temp: 29, humidity: 75 },
-//   { time: "14:00", temp: 31, humidity: 72 },
-//   { time: "16:00", temp: 28, humidity: 76 },
-//   { time: "18:00", temp: 25, humidity: 80 },
-// ];
-
-// Data pengunjung per jam
-// const visitorData = [
-//   { time: "08:00", masuk: 5, keluar: 0 },
-//   { time: "09:00", masuk: 12, keluar: 2 },
-//   { time: "10:00", masuk: 18, keluar: 3 },
-//   { time: "11:00", masuk: 25, keluar: 8 },
-//   { time: "12:00", masuk: 15, keluar: 12 },
-//   { time: "13:00", masuk: 20, keluar: 15 },
-//   { time: "14:00", masuk: 22, keluar: 18 },
-//   { time: "15:00", masuk: 18, keluar: 20 },
-//   { time: "16:00", masuk: 10, keluar: 25 },
-// ];
-
+import { isLogin } from "@/hooks/auth";
+import Link from "next/link";
+import LoadingPage from "./loading-page";
+import CarouselDashboard from "./carrousel";
+import { useGetIMages } from "@/hooks/images";
 interface DashboardProps {
   onLogin: () => void;
 }
@@ -90,6 +65,13 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
     isError: isErrorVisitor,
     error: errorVisitor,
   } = useGetVisitorDataHourly();
+
+  const {
+    data:imageData,
+    isLoading: isLoadingImage,
+    isError: isErrorImage,
+    error: errorImage,
+  } = useGetIMages();
 
   const {
     data: weatherData,
@@ -111,9 +93,9 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
     return totalMasuk - totalKeluar;
   }, [visitorData?.data]);
 
-  if (isLoading || isLoadingVisitor || isLoadingWeather) return <div>Loading...</div>;
+  if (isLoading || isLoadingVisitor || isLoadingWeather || isLoadingImage) return <LoadingPage/>
 
-  if (isError || isErrorVisitor || isErrorWeather)
+  if (isError || isErrorVisitor || isErrorWeather || isErrorImage)
     return (
       <div>
         Error: {error?.message} {errorVisitor?.message} {errorWeather?.message}
@@ -186,116 +168,47 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
             </div>
           </div>
           <div className="flex gap-2">
-            <Button
-              onClick={onLogin}
-              variant="outline"
-              size="sm"
-              className="border-green-200 text-green-700 hover:bg-green-50"
-            >
-              <LogIn className="h-4 w-4 mr-2" />
-              Login
-            </Button>
+            {
+              isLogin() ? (
+
+                <>
+                <Link href="/admin">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-green-200 text-green-700 hover:bg-green-50"
+                >
+                  <Database className="h-4 w-4 mr-2" />
+                  Manage Data
+                </Button>
+                </Link>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-green-200 text-green-700 hover:bg-green-50"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
+                
+                </>
+              ) : (
+                <Button
+                  onClick={onLogin}
+                  variant="outline"
+                  size="sm"
+                  className="border-green-200 text-green-700 hover:bg-green-50"
+                >
+                  <LogIn className="h-4 w-4 mr-2" />
+                  Login
+                </Button>
+              )
+            }
           </div>
         </div>
 
         {/* Image Carousel */}
-        <Card className="shadow-lg border-green-100 overflow-hidden">
-          <CardContent className="p-0">
-            <Carousel className="w-full">
-              <CarouselContent>
-                <CarouselItem>
-                  <div className="relative h-64 md:h-80 lg:h-96">
-                    <img
-                      src="https://live.staticflickr.com/65535/50647347593_ecc150826b_o.jpg"
-                      alt="Air Terjun Sekumpul - Pemandangan Utama"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <h3 className="text-xl font-bold mb-1">
-                        Air Terjun Sekumpul
-                      </h3>
-                      <p className="text-sm opacity-90">
-                        Pemandangan utama air terjun yang menakjubkan
-                      </p>
-                    </div>
-                  </div>
-                </CarouselItem>
-                <CarouselItem>
-                  <div className="relative h-64 md:h-80 lg:h-96">
-                    <img
-                      src="https://live.staticflickr.com/65535/50647347593_ecc150826b_o.jpg"
-                      alt="Area Pengunjung"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <h3 className="text-xl font-bold mb-1">
-                        Area Pengunjung
-                      </h3>
-                      <p className="text-sm opacity-90">
-                        Fasilitas dan area rekreasi untuk wisatawan
-                      </p>
-                    </div>
-                  </div>
-                </CarouselItem>
-                <CarouselItem>
-                  <div className="relative h-64 md:h-80 lg:h-96">
-                    <img
-                      src="https://live.staticflickr.com/65535/50647347593_ecc150826b_o.jpg"
-                      alt="Jalur Trekking"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <h3 className="text-xl font-bold mb-1">Jalur Trekking</h3>
-                      <p className="text-sm opacity-90">
-                        Perjalanan menuju air terjun melalui alam
-                      </p>
-                    </div>
-                  </div>
-                </CarouselItem>
-                <CarouselItem>
-                  <div className="relative h-64 md:h-80 lg:h-96">
-                    <img
-                      src="https://live.staticflickr.com/65535/50647347593_ecc150826b_o.jpg"
-                      alt="Kolam Alami"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <h3 className="text-xl font-bold mb-1">Kolam Alami</h3>
-                      <p className="text-sm opacity-90">
-                        Kolam alami untuk berenang dan bersantai
-                      </p>
-                    </div>
-                  </div>
-                </CarouselItem>
-                <CarouselItem>
-                  <div className="relative h-64 md:h-80 lg:h-96">
-                    <img
-                      src="https://live.staticflickr.com/65535/50647347593_ecc150826b_o.jpg"
-                      alt="Sunrise di Air Terjun"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <h3 className="text-xl font-bold mb-1">
-                        Sunrise di Air Terjun
-                      </h3>
-                      <p className="text-sm opacity-90">
-                        Momen sunrise yang memukau di pagi hari
-                      </p>
-                    </div>
-                  </div>
-                </CarouselItem>
-              </CarouselContent>
-              <CarouselPrevious className="left-4 bg-white/80 hover:bg-white border-green-200 text-green-700" />
-              <CarouselNext className="right-4 bg-white/80 hover:bg-white border-green-200 text-green-700" />
-            </Carousel>
-          </CardContent>
-        </Card>
-
+        <CarouselDashboard carouselData={imageData?.data!}/>
         {/* Kartu Informasi Utama */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Curah Hujan */}

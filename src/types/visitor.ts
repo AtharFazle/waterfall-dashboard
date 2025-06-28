@@ -14,3 +14,5 @@ export interface VisitorHourly {
     masuk: number;
     keluar: number;
 }
+
+export type CheckInVisitor = Pick<Visitor, 'name' | 'amount'>

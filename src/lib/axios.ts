@@ -1,3 +1,4 @@
+"use client";
 import axios, { AxiosResponse, AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { QueryClient } from '@tanstack/react-query';
 import { API_URL } from '@/constant';
@@ -28,6 +29,7 @@ interface RefreshResponse {
 // Token management
 class TokenManager {
   private static getAccessToken(): string | null {
+     if (typeof window === 'undefined') return null;
     return localStorage.getItem('accessToken');
   }
 
@@ -61,7 +63,7 @@ const api = axios.create({
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
-    'Authorization' : TokenManager.getAuthHeader(),
+    'Authorization' : TokenManager.getAuthHeader() || 'aok',
   },
 });
 

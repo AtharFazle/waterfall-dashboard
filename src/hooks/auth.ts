@@ -1,6 +1,6 @@
 
 'use client'
-import { login } from "@/service/auth";
+import { login, logout } from "@/service/auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 const key = 'auth';
@@ -13,4 +13,23 @@ export const useLogin = () => {
   });
 
   return mutation;
+};
+
+export const useLogout = () => {
+  const mutation = useMutation({
+    mutationKey: [key],
+    mutationFn: logout,
+    onSuccess: () => {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+
+      window.location.href = '/';
+    },
+  });
+
+  return mutation;
+};
+
+export const isLogin = () => {
+  return !!localStorage.getItem('accessToken');
 };

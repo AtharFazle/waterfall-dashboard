@@ -1,12 +1,12 @@
 import { getDashboardData } from "@/service/sensor";
-import { getVisitorData, getVisitorDataDaily, getVisitorDataHourly } from "@/service/visitor";
-import { useQuery } from "@tanstack/react-query";
+import { checkInVisitor, checkOutVisitor, getVisitorData, getVisitorDataDaily, getVisitorDataHourly } from "@/service/visitor";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
-const key = "visitor";
+export const visitorKey = "visitor";
 
 export const useGetVisitorData = () => {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: [key],
+    queryKey: [visitorKey],
     queryFn: getVisitorData,
     refetchInterval: 10000,
     refetchIntervalInBackground: true,
@@ -20,7 +20,7 @@ export const useGetVisitorData = () => {
 
 export const useGetVisitorDataHourly = () => {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: [key,'/hourly'],
+    queryKey: [visitorKey,'/hourly'],
     queryFn: getVisitorDataHourly,
     refetchInterval: 10000,
     refetchIntervalInBackground: true,
@@ -33,7 +33,7 @@ export const useGetVisitorDataHourly = () => {
 
 export const useGetVisitorDataDaily = () => {
   const query = useQuery({
-    queryKey: [key,'/daily'],
+    queryKey: [visitorKey,'/daily'],
     queryFn: getVisitorDataDaily,
     refetchInterval: 10000,
     refetchIntervalInBackground: true,
@@ -42,4 +42,23 @@ export const useGetVisitorDataDaily = () => {
   });
 
   return query;
+}
+
+
+export const useCheckInVisitor = () => {
+  const mutation = useMutation({
+    mutationKey: [visitorKey],
+    mutationFn: checkInVisitor,
+  })
+
+  return mutation
+}
+
+export const useCheckOutVisitor = () => {
+  const mutation = useMutation({
+    mutationKey: [visitorKey],
+    mutationFn: checkOutVisitor,
+  })
+
+  return mutation
 }
