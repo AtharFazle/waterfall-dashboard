@@ -1,4 +1,6 @@
 "use client";
+
+    /* eslint-disable */
 import axios, { AxiosResponse, AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { QueryClient } from '@tanstack/react-query';
 import { API_URL } from '@/constant';

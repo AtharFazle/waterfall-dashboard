@@ -21,17 +21,15 @@ import {
   LogOut,
   Clock,
   User,
-  DollarSign,
   ArrowLeft,
   Search,
   UserCheck,
   Users,
-  Download,
-  Upload,
   CheckCircle,
   AlertCircle,
   Loader2,
-  Image,
+  // Image,
+  ImageIcon,
 } from "lucide-react";
 import {
   useGetVisitorDataDaily,
@@ -44,11 +42,11 @@ import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-interface VisitorManagementProps {
-  onBack: () => void;
-}
+// interface VisitorManagementProps {
+//   onBack: () => void;
+// }
 
-export default function VisitorManagement({ onBack }: VisitorManagementProps) {
+export default function VisitorManagement() {
   // React Query hooks
   const {
     data: visitorsResponse,
@@ -167,14 +165,6 @@ export default function VisitorManagement({ onBack }: VisitorManagementProps) {
     });
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(amount);
-  };
-
   const formatDateTime = (dateTime: string) => {
     if (!dateTime) return "-";
     return new Date(dateTime).toLocaleString("id-ID", {
@@ -240,7 +230,7 @@ export default function VisitorManagement({ onBack }: VisitorManagementProps) {
               >
                 {/* <Upload className="h-4 w-4 mr-2" />
                  */}
-                <Image />
+                <ImageIcon />
                 Image Management
               </Button>
             </Link>

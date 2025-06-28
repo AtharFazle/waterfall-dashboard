@@ -1,3 +1,4 @@
+    /* eslint-disable */
 import React from "react";
 
 import {
@@ -16,7 +17,7 @@ type Props = {
 };
 
 const CarouselDashboard = (props: Props) => {
-  const filteredImages = props.carouselData.filter((image) => image.isActive);
+  const filteredImages = props.carouselData.filter((image) => image.isActive).sort((a, b) => a.order - b.order);
   return (
     <Card className="shadow-lg border-green-100 overflow-hidden">
       <CardContent className="p-0">

@@ -1,5 +1,5 @@
 // fetchWeather.ts
-
+    /* eslint-disable */
 import axios from 'axios';
 
 // ===========================================

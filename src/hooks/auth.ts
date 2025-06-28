@@ -1,7 +1,7 @@
 
 'use client'
 import { login, logout } from "@/service/auth";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 const key = 'auth';
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -29,7 +29,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const { isPending, mutate,mutateAsync } = useLogin();
+  const { isPending,mutateAsync } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

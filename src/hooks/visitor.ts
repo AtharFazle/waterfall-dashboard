@@ -1,4 +1,3 @@
-import { getDashboardData } from "@/service/sensor";
 import { checkInVisitor, checkOutVisitor, getVisitorData, getVisitorDataDaily, getVisitorDataHourly } from "@/service/visitor";
 import { useMutation, useQuery } from "@tanstack/react-query";
 

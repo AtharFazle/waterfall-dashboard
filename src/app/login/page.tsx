@@ -1,11 +1,10 @@
 import LoginPage from '@/components/modular/loginPage'
 import React from 'react'
 
-type Props = {}
+// type Props = {}
 
-const Login = (props: Props) => {
+const Login = () => {
   return (
-    // <div>LoginPage</div>
     <LoginPage />
   )
 }

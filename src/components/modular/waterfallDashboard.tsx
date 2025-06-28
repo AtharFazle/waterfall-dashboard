@@ -67,7 +67,7 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
   } = useGetVisitorDataHourly();
 
   const {
-    data:imageData,
+    data: imageData,
     isLoading: isLoadingImage,
     isError: isErrorImage,
     error: errorImage,
@@ -81,26 +81,36 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
   } = useGetWeatherData();
 
   const totalMasuk = useMemo(() => {
-    return visitorData?.data.reduce((sum, data) => sum + data.masuk, 0) || 0;
+    return visitorData?.data?.reduce((sum, data) => sum + data.masuk, 0) || 0;
   }, [visitorData?.data]);
 
   const totalKeluar = useMemo(() => {
-    return visitorData?.data.reduce((sum, data) => sum + data.keluar, 0) || 0;
+    return visitorData?.data?.reduce((sum, data) => sum + data.keluar, 0) || 0;
   }, [visitorData?.data]);
 
   const pengunjungSaatIni = useMemo(() => {
-    if (totalMasuk == 0) return 0;
+    if (totalMasuk === 0) return 0;
     return totalMasuk - totalKeluar;
-  }, [visitorData?.data]);
+  }, [totalMasuk, totalKeluar]);
 
-  if (isLoading || isLoadingVisitor || isLoadingWeather || isLoadingImage) return <LoadingPage/>
+  if (isLoading || isLoadingVisitor || isLoadingWeather || isLoadingImage) {
+    return <LoadingPage />;
+  }
 
-  if (isError || isErrorVisitor || isErrorWeather || isErrorImage)
+  if (isError || isErrorVisitor || isErrorWeather || isErrorImage) {
+    const errorMessages = [
+      error?.message,
+      errorVisitor?.message,
+      errorWeather?.message,
+      errorImage?.message,
+    ].filter(Boolean);
+
     return (
       <div>
-        Error: {error?.message} {errorVisitor?.message} {errorWeather?.message}
+        Error: {errorMessages.join(', ')}
       </div>
     );
+  }
 
   const currentTime = new Date().toLocaleTimeString("id-ID", {
     hour: "2-digit",
@@ -114,34 +124,35 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
     day: "numeric",
   });
 
-    const getCuacaLatest = () => {
-      if (!weatherData?.length) return null;
+  const getCuacaLatest = () => {
+    if (!weatherData || weatherData.length === 0) return 'Normal';
 
-      const now = new Date();
-      const nowMinutes = now.getHours() * 60 + now.getMinutes();
+    const now = new Date();
+    const nowMinutes = now.getHours() * 60 + now.getMinutes();
 
-      let closest = weatherData[0];
-      let closestDiff = Math.abs(
-        nowMinutes - convertTimeToMinutes(weatherData[0].time)
-      );
+    let closest = weatherData[0];
+    let closestDiff = Math.abs(
+      nowMinutes - convertTimeToMinutes(weatherData[0].time)
+    );
 
-      for (let i = 1; i < weatherData.length; i++) {
-        const itemMinutes = convertTimeToMinutes(weatherData[i].time);
-        const diff = Math.abs(nowMinutes - itemMinutes);
+    for (let i = 1; i < weatherData.length; i++) {
+      const itemMinutes = convertTimeToMinutes(weatherData[i].time);
+      const diff = Math.abs(nowMinutes - itemMinutes);
 
-        if (diff < closestDiff) {
-          closest = weatherData[i];
-          closestDiff = diff;
-        }
+      if (diff < closestDiff) {
+        closest = weatherData[i];
+        closestDiff = diff;
       }
-
-      return closest.weatherDesc || 'Normal';
-    };
-
-    function convertTimeToMinutes(timeStr: string): number {
-      const [hour, minute] = timeStr.split(":").map(Number);
-      return hour * 60 + minute;
     }
+
+    return closest.weatherDesc || 'Normal';
+  };
+
+  function convertTimeToMinutes(timeStr: string): number {
+    const [hour, minute] = timeStr.split(":").map(Number);
+    return hour * 60 + minute;
+  }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 p-4">
@@ -208,7 +219,7 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
         </div>
 
         {/* Image Carousel */}
-        <CarouselDashboard carouselData={imageData?.data!}/>
+        <CarouselDashboard carouselData={imageData?.data || []}/>
         {/* Kartu Informasi Utama */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Curah Hujan */}

@@ -1,4 +1,4 @@
-interface Sensor {
+export interface Sensor {
     id: number;
     logged_at: string;
     suhu: number;
