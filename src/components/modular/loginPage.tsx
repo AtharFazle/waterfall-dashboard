@@ -26,7 +26,7 @@ import {
 import { useLogin } from "@/hooks/auth";
 // import { useRouter } from "next/router"
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const { isPending,mutateAsync } = useLogin();
@@ -34,7 +34,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
