@@ -31,6 +31,7 @@ interface RefreshResponse {
 // Token management
 class TokenManager {
   private static getAccessToken(): string | null {
+    console.log(typeof window,'window');
      if (typeof window === 'undefined') return null;
     return localStorage.getItem('accessToken');
   }

@@ -52,6 +52,8 @@ export default function LoginPage() {
           // Simpan ke localStorage
           localStorage.setItem("user", JSON.stringify(result.data.user));
           localStorage.setItem("accessToken", result.data.token);
+          console.log(localStorage.getItem("accessToken"));
+          console.log(localStorage.getItem("user"));
 
           // Tampilkan toast sukses
           toast.custom(
@@ -80,7 +82,8 @@ export default function LoginPage() {
             }
           );
 
-          router.push("/admin");
+          // router.push("/admin");
+          window.location.href = "/admin";
         },
         onError: (error) => {
           toast.custom(

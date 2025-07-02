@@ -153,6 +153,14 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
     return hour * 60 + minute;
   }
 
+  function onLogout() {
+    localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
+
+    window.location.href = "/";
+    // onLogin();
+  }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 p-4">
@@ -194,6 +202,7 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
                 </Button>
                 </Link>
                 <Button
+                  onClick={onLogout}
                   variant="outline"
                   size="sm"
                   className="border-green-200 text-green-700 hover:bg-green-50"
