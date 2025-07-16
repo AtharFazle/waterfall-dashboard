@@ -9,6 +9,7 @@ export const storeImage = async (data: CreateImagePayload) => {
     
     // Append image file
     if (data.image instanceof File) {
+        console.log(data.image,'image')
         formData.append('image', data.image);
     }
     
@@ -21,11 +22,7 @@ export const storeImage = async (data: CreateImagePayload) => {
     }
     formData.append('is_active', data.isActive ? '1' : '0');
 
-    const response = await apiClient.post<Image>(`/images`, formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    });
+    const response = await apiClient.post<Image>(`/images`, formData);
     return response.data;
 };
 

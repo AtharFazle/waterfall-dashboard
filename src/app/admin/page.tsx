@@ -128,7 +128,7 @@ export default function VisitorManagement() {
       visitor?.ticket_number?.toLowerCase()?.includes(searchTerm.toLowerCase())
   );
 
-  const totalVisitors = visitors.reduce((sum, v) => sum + v.amount, 0);
+  const totalVisitors = visitors.reduce((sum, v) => sum + Number(v.amount), 0);
 
   // Functions
   const handleCheckIn = () => {

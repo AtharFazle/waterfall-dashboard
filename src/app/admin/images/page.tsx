@@ -64,8 +64,8 @@ export default function ImageManagement() {
   const queryClient = useQueryClient();
 
   const { data: carouselImages, isLoading } = useGetIMages()
-  const { mutate: storeImage } = useStoreImages()
-  const { mutate: updateImage } = useUpdateImage()
+  const { mutate: storeImage,isPending: isStorePending } = useStoreImages()
+  const { mutate: updateImage, isPending: isUpdatePending } = useUpdateImage()
   const { mutate: swapOrdering } = useSwapOrdering()
   const { mutate: toggleImage } = useToggleImagesActive()
   const { mutate: removeImage } = useDeleteImage()
@@ -254,24 +254,6 @@ export default function ImageManagement() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-green-200 text-green-700 hover:bg-green-50 bg-transparent"
-              >
-                <Download className="h-4 w-4 mr-2" />
-                Export
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-green-200 text-green-700 hover:bg-green-50 bg-transparent"
-              >
-                <Upload className="h-4 w-4 mr-2" />
-                Import
-              </Button>
-            </div>
           </div>
         </div>
       </nav>
@@ -432,7 +414,7 @@ export default function ImageManagement() {
                   <Button
                     onClick={editingImage ? handleUpdateImage : handleAddImage}
                     className="bg-green-500 hover:bg-green-600"
-                    disabled={!imageForm.title || (!imageForm.image && !editingImage)}
+                    disabled={!imageForm.title || (!imageForm.image && !editingImage) || !imageForm.description || isUpdatePending || isStorePending}
                   >
                     <Save className="h-4 w-4 mr-2" />
                     {editingImage ? "Update" : "Simpan"}

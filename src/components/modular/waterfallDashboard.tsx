@@ -124,6 +124,29 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
     day: "numeric",
   });
 
+  const getSuhuLatest = () => {
+    if (!weatherData || weatherData.length === 0) return 'Normal';
+
+    const now = new Date();
+    const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+    let closest = weatherData[0];
+    let closestDiff = Math.abs(
+      nowMinutes - convertTimeToMinutes(weatherData[0].time)
+    );
+
+    for (let i = 1; i < weatherData.length; i++) {
+      const itemMinutes = convertTimeToMinutes(weatherData[i].time);
+      const diff = Math.abs(nowMinutes - itemMinutes);
+
+      if (diff < closestDiff) {
+        closest = weatherData[i];
+        closestDiff = diff;
+      }
+    }
+
+    return closest.temp || 'Normal';
+  };
   const getCuacaLatest = () => {
     if (!weatherData || weatherData.length === 0) return 'Normal';
 
@@ -263,12 +286,12 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
             </CardContent>
           </Card>
 
-          {/* Debit Air */}
+          {/* Kecepatan Air */}
           <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
                 <Activity className="h-4 w-4" />
-                Debit Air
+                Kecepatan Air
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -340,13 +363,13 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
                 <Droplets className="h-4 w-4" />
-                Kelembapan
+                Kecepatan Angin
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{data?.data?.kelembapan}</div>
               <p className="text-emerald-100 text-sm">
-                {getStatusByKelembapan(data?.data?.kelembapan)}
+                {getStatusByKelembapan(data?.data?.kelembapan)} km/h
               </p>
               <div className="flex items-center gap-2 mt-2">
                 <Thermometer className="h-3 w-3" />
@@ -366,7 +389,7 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{data?.data?.suhu}°C</div>
+              <div className="text-2xl font-bold">{getSuhuLatest()}°C</div>
               <p className="text-green-100 text-sm">{getCuacaLatest()}</p>
               <div className="flex items-center gap-2 mt-2">
                 <Wind className="h-3 w-3" />
