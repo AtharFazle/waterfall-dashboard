@@ -195,7 +195,7 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
               <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg">
                 <TreePine className="h-6 w-6 text-white" />
               </div>
-              Dashboard Wisata Air Terjun Banyumaro
+              Dashboard Wisata River Tubing Banyumaro
             </div>
             <div className="flex items-center justify-center gap-4 text-sm text-gray-600">
               <div className="flex items-center gap-1">

@@ -132,7 +132,7 @@ export default function LoginPage() {
             <MapPin className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-2xl font-bold text-gray-800 mb-2">
-            Wisata Air Terjun Banyumaro
+            Wisata River Tubing Banyumaro
           </h1>
           <p className="text-gray-600 text-sm">Sistem Monitoring & Manajemen</p>
         </div>
@@ -227,7 +227,7 @@ export default function LoginPage() {
             <Droplets className="h-3 w-3 text-green-500" />
             <span>Sistem Monitoring Wisata Alam</span>
           </div>
-          <p>&copy; 2024 Wisata Air Terjun Banyumaro. All rights reserved.</p>
+          <p>&copy; 2024 Wisata River Tubing Banyumaro. All rights reserved.</p>
         </div>
       </div>
     </div>
