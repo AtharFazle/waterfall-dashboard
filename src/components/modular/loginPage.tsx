@@ -218,28 +218,6 @@ export default function LoginPage() {
                 )}
               </Button>
             </form>
-
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <Separator className="w-full" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-gray-500">
-                  Demo Account
-                </span>
-              </div>
-            </div>
-
-            <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-              <div className="flex items-start gap-2">
-                <TreePine className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                <div className="text-xs text-green-700">
-                  <p className="font-medium mb-1">Akun Demo:</p>
-                  <p>Email: admin@banyumaro.com</p>
-                  <p>Password: admin123</p>
-                </div>
-              </div>
-            </div>
           </CardContent>
         </Card>
 
