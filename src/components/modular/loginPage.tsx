@@ -11,22 +11,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import {
   Eye,
   EyeOff,
   MapPin,
   Droplets,
-  TreePine,
   Lock,
   User,
   X,
   AlertCircle,
 } from "lucide-react";
 import { useLogin } from "@/hooks/auth";
-// import { useRouter } from "next/router"
 import { toast } from "sonner";
-// import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const { isPending,mutateAsync } = useLogin();
