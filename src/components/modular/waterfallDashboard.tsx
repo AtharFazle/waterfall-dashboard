@@ -324,7 +324,7 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {data?.data?.ketinggian_air || 0}m
+                {data?.data?.ketinggian_air || 0}cm
               </div>
               <p className="text-cyan-100 text-sm">
                 {data?.data?.ketinggian_air || 0 > 1.5
@@ -371,12 +371,12 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
               <p className="text-emerald-100 text-sm">
                 {getStatusByKelembapan(data?.data?.kelembapan)} km/h
               </p>
-              <div className="flex items-center gap-2 mt-2">
+              {/* <div className="flex items-center gap-2 mt-2">
                 <Thermometer className="h-3 w-3" />
                 <span className="text-xs">
                   Terasa {Math.round(data?.data?.kelembapan || 0)}°C
                 </span>
-              </div>
+              </div> */}
             </CardContent>
           </Card>
 

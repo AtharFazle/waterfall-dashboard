@@ -113,7 +113,7 @@ export default function LoadingPage({ onLoadingComplete, duration = 3000 }: Load
           <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full mb-6 shadow-2xl animate-bounce">
             <TreePine className="h-10 w-10 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Wisata Air Terjun Sekumpul</h1>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">River tubing Banyumaro</h1>
           <p className="text-gray-600 text-lg">Sistem Monitoring & Manajemen</p>
         </div>
 
@@ -232,7 +232,7 @@ export default function LoadingPage({ onLoadingComplete, duration = 3000 }: Load
             <Waves className="h-3 w-3 text-green-500" />
             <span>Sistem Monitoring Wisata Alam</span>
           </div>
-          <p className="text-xs text-gray-400">&copy; 2024 Wisata Air Terjun Sekumpul. All rights reserved.</p>
+          <p className="text-xs text-gray-400">&copy; 2024 River tubing Banyumaro All rights reserved.</p>
         </div>
       </div>
 
