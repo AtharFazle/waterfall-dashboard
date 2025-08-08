@@ -351,26 +351,29 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
           {/* Kelembapan */}
           <Card
             className={cn(
-              " text-white shadow-lg",
+              " text-white shadow-lg ",
               getStatusByKelembapan(data?.data?.kelembapan) === "Kering" &&
                 "bg-gradient-to-br from-red-500 to-red-600",
               getStatusByKelembapan(data?.data?.kelembapan) === "Normal" &&
                 "bg-gradient-to-br from-emerald-500 to-emerald-600",
-              getStatusByKelembapan(data?.data?.kelembapan) === "Basah" &&
+              getStatusByKelembapan(data?.data?.kelembapan) === "Basah" || getStatusByKelembapan(data?.data?.kelembapan) === "Loading.." &&
                 "bg-gradient-to-br from-blue-500 to-blue-600"
             )}
           >
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
                 <Droplets className="h-4 w-4" />
-                Kecepatan Angin
+                Kecepatan Angin 
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{data?.data?.kelembapan}</div>
-              <p className="text-emerald-100 text-sm">
+              <div className="text-2xl font-bold">{data?.data?.kelembapan} 
+                <span className="text-white font-medium text-base ml-1">
+                  km/h
+                </span></div>
+              {/* <p className="text-emerald-100 text-sm">
                 {getStatusByKelembapan(data?.data?.kelembapan)} km/h
-              </p>
+              </p> */}
               {/* <div className="flex items-center gap-2 mt-2">
                 <Thermometer className="h-3 w-3" />
                 <span className="text-xs">
