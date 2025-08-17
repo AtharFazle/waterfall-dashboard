@@ -44,7 +44,7 @@ import {
 } from "@/components/ui/chart";
 
 import { useGetDashboardData } from "@/hooks/sensor";
-import { getStatusByKelembapan } from "@/lib/sensor";
+import { getStatusKetinggianAir } from "@/lib/sensor";
 import { cn } from "@/lib/utils";
 import { useGetVisitorDataHourly } from "@/hooks/visitor";
 import { useMemo } from "react";
@@ -184,6 +184,40 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
     // onLogin();
   }
 
+  function getStatusKeamananByKetinggianAir(ketinggianAir?: number) {
+    const statusKetinggianAir = getStatusKetinggianAir(ketinggianAir); 
+    switch(statusKetinggianAir) {
+      case 'Aman':
+        return (
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="ml-2 text-sm font-medium text-green-700">Aman</span>
+          </div>
+        );
+      case "Bahaya":
+        return (
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+            <span className="ml-2 text-sm font-medium text-red-700">Bahaya</span>
+          </div>
+        );
+      case "Waspada":
+        return (
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
+            <span className="ml-2 text-sm font-medium text-yellow-700">Waspada</span>
+          </div>
+        );
+      default:
+        return (
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-gray-500 rounded-full animate-pulse"></div>
+            <span className="ml-2 text-sm font-medium text-gray-700">Normal</span>
+          </div>
+        );
+    }
+  }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 p-4">
@@ -267,7 +301,7 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
                 {data?.data?.curah_hujan?.toFixed(1) || 0}
               </div>
               <p className="text-indigo-100 text-sm">mm hari ini</p>
-              <div className="flex items-center gap-2 mt-2">
+              {/* <div className="flex items-center gap-2 mt-2">
                 <Badge
                   variant="secondary"
                   className={`text-xs ${
@@ -282,7 +316,7 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
                     ? "Hujan Sedang"
                     : "Ringan"}
                 </Badge>
-              </div>
+              </div> */}
             </CardContent>
           </Card>
 
@@ -299,7 +333,7 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
                 {data?.data?.debit_air || 0}
               </div>
               <p className="text-blue-100 text-sm">m³/detik</p>
-              <div className="flex items-center gap-2 mt-2">
+              {/* <div className="flex items-center gap-2 mt-2">
                 <Badge
                   variant="secondary"
                   className={`text-xs ${
@@ -310,7 +344,7 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
                 >
                   {data?.data?.debit_air || 0 > 20 ? "Deras" : "Normal"}
                 </Badge>
-              </div>
+              </div> */}
             </CardContent>
           </Card>
 
@@ -326,23 +360,14 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
               <div className="text-2xl font-bold">
                 {data?.data?.ketinggian_air || 0}cm
               </div>
-              <p className="text-cyan-100 text-sm">
-                {data?.data?.ketinggian_air || 0 > 1.5
-                  ? "Tinggi"
-                  : data?.data?.ketinggian_air || 0 > 1.0
-                  ? "Normal"
-                  : "Rendah"}
-              </p>
               <div className="flex items-center gap-2 mt-2">
                 <Badge
                   variant="secondary"
                   className={`text-xs ${
-                    data?.data?.ketinggian_air || 0 > 1.5
-                      ? "bg-red-400 text-red-900"
-                      : "bg-cyan-400 text-cyan-900"
+                    getStatusKetinggianAir(data?.data?.ketinggian_air) === "Aman" ? "bg-green-400 text-green-900" : getStatusKetinggianAir(data?.data?.ketinggian_air) === "Waspada" ? "bg-yellow-400 text-yellow-900" : "bg-red-400 text-red-900"
                   }`}
                 >
-                  {data?.data?.ketinggian_air || 0 > 1.5 ? "Waspada" : "Aman"}
+                  {getStatusKetinggianAir(data?.data?.ketinggian_air)}
                 </Badge>
               </div>
             </CardContent>
@@ -351,14 +376,7 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
           {/* Kelembapan */}
           <Card
             className={cn(
-              " text-white shadow-lg ",
-              getStatusByKelembapan(data?.data?.kelembapan) === "Kering" &&
-                "bg-gradient-to-br from-red-500 to-red-600",
-              getStatusByKelembapan(data?.data?.kelembapan) === "Normal" &&
-                "bg-gradient-to-br from-emerald-500 to-emerald-600",
-              getStatusByKelembapan(data?.data?.kelembapan) === "Basah" || getStatusByKelembapan(data?.data?.kelembapan) === "Loading.." &&
-                "bg-gradient-to-br from-blue-500 to-blue-600"
-            )}
+              " text-white shadow-lg bg-gradient-to-br from-emerald-500 to-emerald-600")}
           >
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -573,8 +591,7 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-sm font-medium text-green-700">Aman</span>
+                {getStatusKeamananByKetinggianAir(data?.data?.ketinggian_air)}
               </div>
               <p className="text-xs text-gray-600 mt-1">
                 Kondisi cuaca mendukung untuk aktivitas wisata

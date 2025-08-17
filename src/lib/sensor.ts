@@ -10,3 +10,16 @@ export function getStatusByKelembapan(kelembapan?: number) {
         return 'Basah';
     }
 }
+
+export function getStatusKetinggianAir(ketinggianAir?: number) {
+    if (!ketinggianAir) {
+        return 'Aman';
+    }
+    if (ketinggianAir < 80) {
+        return 'Aman';
+    } else if (ketinggianAir >= 80 && ketinggianAir <= 100) {
+        return 'Waspada';
+    } else {
+        return 'Bahaya';
+    }
+}
