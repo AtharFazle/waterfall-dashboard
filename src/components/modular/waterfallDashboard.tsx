@@ -387,7 +387,7 @@ export default function WaterfallDashboard({ onLogin }: DashboardProps) {
             <CardContent>
               <div className="text-2xl font-bold">{data?.data?.kelembapan} 
                 <span className="text-white font-medium text-base ml-1">
-                  km/h
+                  m/s
                 </span></div>
               {/* <p className="text-emerald-100 text-sm">
                 {getStatusByKelembapan(data?.data?.kelembapan)} km/h
